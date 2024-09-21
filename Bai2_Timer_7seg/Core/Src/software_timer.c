@@ -4,7 +4,7 @@
  *  Created on: Sep 24, 2023
  *      Author: HaHuyen
  */
-
+#include "led_7seg.h"
 #include "software_timer.h"
 
 #define TIMER_CYCLE_2 1
