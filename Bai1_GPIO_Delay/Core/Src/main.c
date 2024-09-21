@@ -86,30 +86,31 @@ int main(void)
   /* USER CODE BEGIN 2 */
   //setup code
 
-  /* USER CODE END 2 */
+  int stat = 0;
+  int count = 0;
+  HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, SET);
+    /* USER CODE END 2 */
 
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
-  // loop
-  while (1)
-  {
-	// set output 0
-	HAL_GPIO_WritePin(OUTPUT_Y1_GPIO_Port, OUTPUT_Y1_Pin, 0);
-	HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y0_Pin, 0);
-	HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, 0);
-	// delay 1000ms
-	HAL_Delay(1000);
-	// set output 1
-	HAL_GPIO_WritePin(OUTPUT_Y1_GPIO_Port, OUTPUT_Y1_Pin, 1);
-	HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y0_Pin, 1);
-	HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, 1);
-	// delay 1000ms
-	HAL_Delay(1000);
+    /* Infinite loop */
+    /* USER CODE BEGIN WHILE */
+    while (1)
+    {
+      /* USER CODE END WHILE */
 
-    /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
-  }
+      /* USER CODE BEGIN 3 */
+  	  if(count >= 2 && stat == 0) {
+  		  count = 0;
+  		  stat = 1;
+  	  }
+  	  else if(count >= 4 && stat == 1) {
+  		  count = 0;
+  		  stat = 0;
+  	  }
+  	  count++;
+  	  if(stat == 0) HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, SET);
+  	  else HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, RESET);
+  	  HAL_Delay(1000);
+    }
   /* USER CODE END 3 */
 }
 
