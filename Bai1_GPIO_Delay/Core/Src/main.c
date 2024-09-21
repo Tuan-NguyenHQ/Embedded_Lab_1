@@ -86,30 +86,54 @@ int main(void)
   /* USER CODE BEGIN 2 */
   //setup code
 
-  /* USER CODE END 2 */
+  	  int state = 0;
+      int red = 5;
+      int yellow = 2;
+      int green = 3;
+      int count = red;
+      HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, SET);
+      HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y0_Pin, RESET);
+      HAL_GPIO_WritePin(OUTPUT_Y1_GPIO_Port, OUTPUT_Y1_Pin, RESET);
+      /* USER CODE END 2 */
 
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
-  // loop
-  while (1)
-  {
-	// set output 0
-	HAL_GPIO_WritePin(OUTPUT_Y1_GPIO_Port, OUTPUT_Y1_Pin, 0);
-	HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y0_Pin, 0);
-	HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, 0);
-	// delay 1000ms
-	HAL_Delay(1000);
-	// set output 1
-	HAL_GPIO_WritePin(OUTPUT_Y1_GPIO_Port, OUTPUT_Y1_Pin, 1);
-	HAL_GPIO_WritePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y0_Pin, 1);
-	HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, 1);
-	// delay 1000ms
-	HAL_Delay(1000);
+      /* Infinite loop */
+      /* USER CODE BEGIN WHILE */
+      while (1)
+      {
+    	  // state = 0: RED mode
+    	  // state = 1: YELLOW mode
+    	  // state = 2: GREEN mode
+    	  if(state == 0){
+    		  if(count <= 0){
+    			  HAL_GPIO_TogglePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin);
+    			  HAL_GPIO_TogglePin(OUTPUT_Y1_GPIO_Port, OUTPUT_Y1_Pin);
+    			  state = 2; // turn to GREEN mode
+    			  count = green;
+    		  }
+    	  }
+    	  else if(state == 1){
+    		  if(count <= 0){
+    			  HAL_GPIO_TogglePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y0_Pin);
+    			  HAL_GPIO_TogglePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin);
+    			  count = red; // turn to RED mode
+    			  state = 0;
+    		  }
+    	  }
+    	  else{
+    		  if(count <= 0){
+    			  HAL_GPIO_TogglePin(OUTPUT_Y1_GPIO_Port, OUTPUT_Y1_Pin);
+    			  HAL_GPIO_TogglePin(OUTPUT_Y0_GPIO_Port, OUTPUT_Y0_Pin);
+    			  state = 1; // turn to YELLOW mode
+    			  count = yellow;
+    		  }
+    	  }
+    	  count--;
+    	  HAL_Delay(1000);
 
-    /* USER CODE END WHILE */
+        /* USER CODE END WHILE */
 
-    /* USER CODE BEGIN 3 */
-  }
+        /* USER CODE BEGIN 3 */
+      }
   /* USER CODE END 3 */
 }
 
