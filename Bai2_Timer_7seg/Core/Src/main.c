@@ -57,6 +57,8 @@ void test_LedDebug();
 void test_LedY0();
 void test_LedY1();
 void test_7seg();
+void colon_scan();
+void led_move();
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -107,9 +109,8 @@ int main(void)
 	  flag_timer2 = 0;
 	  // main task, every 50ms
 	  test_LedDebug();
-	  test_LedY0();
-	  test_LedY1();
-	  test_7seg();
+	  colon_scan();
+	  led_move();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -174,6 +175,30 @@ void system_init(){
 uint8_t count_led_debug = 0;
 uint8_t count_led_Y0 = 0;
 uint8_t count_led_Y1 = 0;
+uint8_t count_move = 0;
+uint8_t index = 0;
+uint8_t count_scan = 0;
+uint8_t arr[4] = {1, 2, 3, 4};
+
+void led_move(){
+	count_move = (count_move + 1) % 20;
+	if(count_move == 0){
+		index = index ? (index - 1) % 4 : 3;
+	}
+	led7_SetDigit(arr[index], 0, 0);
+	led7_SetDigit(arr[(index + 1) % 4], 1, 0);
+	led7_SetDigit(arr[(index + 2) % 4], 2, 0);
+	led7_SetDigit(arr[(index + 3) % 4], 3, 0);
+}
+
+void colon_scan(){
+	count_scan = (count_scan + 1) % 20;
+	if(count_scan > 10){
+		led7_SetColon(0);
+	}
+	else led7_SetColon(1);
+}
+
 
 void test_LedDebug(){
 	count_led_debug = (count_led_debug + 1)%20;
