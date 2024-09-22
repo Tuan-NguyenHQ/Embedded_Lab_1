@@ -57,6 +57,8 @@ void test_LedDebug();
 void test_LedY0();
 void test_LedY1();
 void test_7seg();
+void colon_scan();
+void current_time();
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -107,9 +109,8 @@ int main(void)
 	  flag_timer2 = 0;
 	  // main task, every 50ms
 	  test_LedDebug();
-	  test_LedY0();
-	  test_LedY1();
-	  test_7seg();
+	  colon_scan();
+	  current_time();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -174,6 +175,37 @@ void system_init(){
 uint8_t count_led_debug = 0;
 uint8_t count_led_Y0 = 0;
 uint8_t count_led_Y1 = 0;
+uint16_t count_scan = 0;
+uint16_t count_time = 0;
+uint16_t hour = 15, minute = 58;
+
+void colon_scan(){
+	count_scan = (count_scan + 1) % 20;
+	if(count_scan > 10){
+		led7_SetColon(0);
+	}
+	else led7_SetColon(1);
+}
+
+void current_time(){
+	count_time = (count_time + 1) % 1200;
+	if(count_time == 0){
+		minute++;
+		if(minute >= 60){
+			minute = 0;
+			hour++;
+		}
+		if(hour >= 24){
+			hour = 0;
+		}
+	}
+	led7_SetDigit(hour / 10, 0, 0);
+	led7_SetDigit(hour % 10, 1, 0);
+	led7_SetDigit(minute / 10, 2, 0);
+	led7_SetDigit(minute % 10, 3, 0);
+
+}
+
 
 void test_LedDebug(){
 	count_led_debug = (count_led_debug + 1)%20;
