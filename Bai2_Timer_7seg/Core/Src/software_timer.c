@@ -49,10 +49,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
 			if(timer2_counter == 0) {
 				flag_timer2 = 1;
 				timer2_counter = timer2_MUL;
+				led7_Scan();
 			}
 		}
 		// 1ms interrupt here
-		led7_Scan();
+
 	}
 }
 

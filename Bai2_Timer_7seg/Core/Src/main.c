@@ -107,8 +107,6 @@ int main(void)
 	  flag_timer2 = 0;
 	  // main task, every 50ms
 	  test_LedDebug();
-	  test_LedY0();
-	  test_LedY1();
 	  test_7seg();
     /* USER CODE END WHILE */
 
@@ -168,7 +166,7 @@ void system_init(){
 	  HAL_GPIO_WritePin(DEBUG_LED_GPIO_Port, DEBUG_LED_Pin, 0);
 	  timer_init();
 	  led7_init();
-	  setTimer2(50);
+	  setTimer2(250);
 }
 
 uint8_t count_led_debug = 0;
