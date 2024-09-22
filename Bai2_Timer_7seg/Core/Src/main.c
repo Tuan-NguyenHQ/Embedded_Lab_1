@@ -180,8 +180,8 @@ uint16_t count_time = 0;
 uint16_t hour = 15, minute = 58;
 
 void colon_scan(){
-	count_scan = (count_scan + 1) % 20;
-	if(count_scan > 10){
+	count_scan = (count_scan + 1) % 10;
+	if(count_scan > 5){
 		led7_SetColon(0);
 	}
 	else led7_SetColon(1);
